@@ -1,0 +1,25 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 指定 工厂 Bean 的 Id-->
+    <bean id="animalBeanFactory" class="com.uifuture.spring.core.bean.createbean.AnimalBeanExampleFactory"/>
+
+    <bean id="cat"
+          factory-bean="animalBeanFactory"
+          factory-method="getAnimal">
+        <!--给实例工厂方法的参数传值-->
+        <constructor-arg value="cat"/>
+        <!--注入属性值，调用setAge方法 -->
+        <property name="age" value="50"></property>
+    </bean>
+    <bean id="dog"
+          factory-bean="animalBeanFactory"
+          factory-method="getAnimal">
+        <!--给实例工厂方法的参数传值-->
+        <constructor-arg value="dog"/>
+        <property name="age" value="5"></property>
+    </bean>
+
+</beans>

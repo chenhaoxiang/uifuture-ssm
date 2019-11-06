@@ -1,0 +1,22 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="cat"
+          class="com.uifuture.spring.core.bean.createbean.AnimalBeanFactory"
+          factory-method="getAnimal">
+        <!--给静态工厂方法的参数传值-->
+        <constructor-arg value="cat"/>
+        <!--注入属性值，调用setAge方法 -->
+        <property name="age" value="50"></property>
+    </bean>
+    <bean id="dog"
+          class="com.uifuture.spring.core.bean.createbean.AnimalBeanFactory"
+          factory-method="getAnimal">
+        <!--给静态工厂方法的参数传值-->
+        <constructor-arg value="dog"/>
+        <property name="age" value="5"></property>
+    </bean>
+
+</beans>

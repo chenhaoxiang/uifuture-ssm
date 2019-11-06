@@ -1,0 +1,40 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        ">
+    <!-- setter方式注入简单值和集合 -->
+    <bean name="gatherEntity" class="com.uifuture.ssm.spring.ioc.demo14_7.gather.GatherEntity">
+        <property name="name" value="SpringIOC演示"/>
+        <!-- 注入map -->
+        <property name="books">
+            <map>
+                <entry key="1" value="Java">
+                </entry>
+                <entry key="2" value="Spring">
+                </entry>
+                <entry key="3" value="SSM">
+                </entry>
+            </map>
+        </property>
+        <!-- 注入set -->
+        <property name="friends">
+            <set>
+                <value>张三</value>
+                <value>李四</value>
+                <value>王五</value>
+            </set>
+        </property>
+        <!-- 注入list -->
+        <property name="citys">
+            <list>
+                <value>杭州</value>
+                <value>上海</value>
+                <value>深圳</value>
+                <value>北京</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

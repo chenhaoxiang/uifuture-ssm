@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <!--  Redis 配置-->
+    <!-- scanner redis properties  -->
+    <!--<context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>-->
+    <!--（1）如果你有多个数据源需要通过
+    <context:property-placeholder管理，且不愿意放在一个配置文件里，
+    那么一定要加上ignore-unresolvable=“true"(每一个都需要加这个属性)-->
+
+    <!-- Redis Standalone 单节点配置 -->
+    <bean id="redisStandaloneConfiguration"
+          class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="database" value="${redis.database}"/>
+        <property name="password">
+            <bean class="org.springframework.data.redis.connection.RedisPassword">
+                <constructor-arg index="0" value="${redis.password}"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Redis 连接配置 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="standaloneConfig" ref="redisStandaloneConfiguration"/>
+
+    </bean>
+
+    <!-- Redis 序列化 -->
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+    <bean id="jsonRedisSerializer" class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer">
+        <!-- 使用默认的 ObjectMapper，移除JSON格式化后的 “@Class”节点 -->
+        <constructor-arg name="mapper">
+            <bean class="com.fasterxml.jackson.databind.ObjectMapper"/>
+        </constructor-arg>
+    </bean>
+
+    <!-- Redis 持久化模板 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+        <!-- 如果不配置Serializer，那么存储的时候只能使用String，如果用对象类型存储，那么会提示错误 can't cast to String！！！-->
+        <property name="keySerializer">
+            <!--对key的默认序列化器。默认值是StringSerializer-->
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <!--是对value的默认序列化器，默认值是取自DefaultSerializer的JdkSerializationRedisSerializer。-->
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+        <!--存储Map时key需要的序列化配置-->
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <!--存储Map时value需要的序列化配置-->
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+        <!--开启事务
+        系统自动帮我们拿到了事务中绑定的连接。可以在一个方法的多次对Redis增删该查中，始终使用同一个连接。
+        -->
+        <property name="enableTransactionSupport" value="true"/>
+        <!--在Spring中@Transactional 也是可以进行事物控制的。-->
+
+    </bean>
+
+    <!--配置-->
+    <bean id="connConfig" class="com.uifuture.ssm.redis.config.ConnConfig">
+        <property name="host" value="${redis.host}"></property>
+        <property name="port" value="${redis.port}"></property>
+        <property name="password" value="${redis.password}"></property>
+        <property name="app" value="${redis.app}"></property>
+    </bean>
+    <!--redis常规操作-->
+    <bean id="redisClient" class="com.uifuture.ssm.redis.RedisClient">
+        <property name="connConfig" ref="connConfig"></property>
+    </bean>
+    <!--redis分布式锁操作-->
+    <bean id="redisLock" class="com.uifuture.ssm.redis.RedisLock">
+        <property name="client" ref="redisClient"/>
+    </bean>
+
+
+    <bean id="redisHttpSessionConfiguration"
+          class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <!--最大空闲时间，单位秒-->
+        <property name="maxInactiveIntervalInSeconds" value="1800"/>
+    </bean>
+
+</beans>

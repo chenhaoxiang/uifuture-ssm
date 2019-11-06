@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uifuture.ssm.mapper.IpDetailsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.uifuture.ssm.entity.IpDetailsEntity">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="user_id" property="userId"/>
+        <result column="ip" property="ip"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="district" property="district"/>
+        <result column="isp" property="isp"/>
+        <result column="areacode" property="areacode"/>
+        <result column="land" property="land"/>
+        <result column="country" property="country"/>
+        <result column="reference" property="reference"/>
+        <result column="idc" property="idc"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        update_time,
+        delete_time,
+        user_id, ip, province, city, district, isp, areacode, land, country, reference, idc
+    </sql>
+
+</mapper>

@@ -1,0 +1,32 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       default-init-method="initMethod"
+       default-destroy-method="destroyMethod">
+    <!-- 创建作用域为singleton的bean -->
+    <bean id="chinese" class="com.uifuture.spring.core.bean.entity.Chinese" scope="singleton"></bean>
+
+    <!-- 创建作用域为prototype的bean -->
+    <bean id="chinesePrototype" class="com.uifuture.spring.core.bean.entity.Chinese" scope="prototype"></bean>
+
+    <!-- 创建作用域为request的bean -->
+    <bean id="chineseRequest" class="com.uifuture.spring.core.bean.entity.Chinese" scope="request"></bean>
+
+    <!-- 创建作用域为session的bean -->
+    <bean id="chineseSession" class="com.uifuture.spring.core.bean.entity.Chinese" scope="session"></bean>
+
+    <!--配置Bean的初始化方法和销毁方法-->
+    <bean name="lifeXmlService" class="com.uifuture.spring.core.bean.life.LifeXmlService" init-method="initMethod"
+          destroy-method="destroyMethod"></bean>
+
+
+    <!--第一种方式：使PostConstruct和PreDestroy注解生效-->
+    <!--<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>-->
+    <!--第二种方式，使用context:annotation-config-->
+    <context:annotation-config></context:annotation-config>
+
+</beans>

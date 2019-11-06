@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uifuture.chapter12.dao.BlogMapper">
+    <resultMap id="BaseResultMap" type="com.uifuture.chapter12.entity.Blog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="author_id" jdbcType="INTEGER" property="authorId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+     id, title, author_id
+    </sql>
+
+    <select id="selectBlogsLike" resultMap="BaseResultMap">
+        <bind name="pattern" value="'%' + _parameter.getTitle() + '%'"/>
+        SELECT * FROM blog
+        WHERE title LIKE #{pattern}
+    </select>
+
+    <select id="selectBlogsTitleLike" resultMap="BaseResultMap">
+        <bind name="pattern" value="'%' + title + '%'"/>
+        SELECT * FROM blog
+        WHERE title LIKE #{pattern}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        *
+        from blog
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" parameterType="com.uifuture.chapter12.entity.Blog">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            <if test="_databaseId == 'oracle'">
+                select seq_users.nextval from dual
+            </if>
+            <if test="_databaseId == 'mysql'">
+                SELECT LAST_INSERT_ID()
+            </if>
+        </selectKey>
+        insert into blog (title, author_id)
+        values (#{title,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.uifuture.chapter12.entity.Blog" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="authorId != null">
+                author_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="authorId != null">
+                #{authorId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.uifuture.chapter12.entity.Blog">
+        update blog
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="authorId != null">
+                author_id = #{authorId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.uifuture.chapter12.entity.Blog">
+    update blog
+    set title = #{title,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <resultMap id="blogResult" type="com.uifuture.chapter12.entity.BlogExt">
+        <collection property="posts" javaType="ArrayList" column="id"
+                    ofType="com.uifuture.chapter12.entity.Post" select="selectPostsForBlog"/>
+    </resultMap>
+    <select id="selectBlogExtById" resultMap="blogResult">
+    SELECT * FROM BLOG WHERE ID = #{id}
+    </select>
+    <select id="selectPostsForBlog" resultType="com.uifuture.chapter12.entity.Post">
+    SELECT * FROM POST WHERE BLOG_ID = #{id}
+    </select>
+
+    <resultMap id="blogExtResult" type="blogExt">
+        <id property="id" column="blog_id"/>
+        <result property="title" column="blog_title"/>
+        <collection property="posts" ofType="Post" resultMap="blogPostResult" columnPrefix="post_"/>
+    </resultMap>
+    <resultMap id="blogPostResult" type="Post">
+        <id property="id" column="id"/>
+        <result property="subject" column="subject"/>
+        <result property="body" column="body"/>
+    </resultMap>
+
+    <!--<resultMap id="blogExtResult" type="BlogExt">-->
+    <!--<id property="id" column="blog_id" />-->
+    <!--<result property="title" column="blog_title"/>-->
+    <!--<collection property="posts" ofType="Post">-->
+    <!--<id property="id" column="post_id"/>-->
+    <!--<result property="subject" column="post_subject"/>-->
+    <!--<result property="body" column="post_body"/>-->
+    <!--</collection>-->
+    <!--</resultMap>-->
+    <select id="selectBlogExt" resultMap="blogExtResult">
+    select
+    B.id as blog_id,
+    B.title as blog_title,
+    B.author_id as blog_author_id,
+    P.id as post_id,
+    P.subject as post_subject,
+    P.body as post_body
+    from Blog B
+    left join Post P on B.id = P.blog_id
+    where B.id = #{id}
+  </select>
+
+
+    <resultMap id="blogResultDiscriminator" type="blog">
+        <id property="id" column="id"/>
+        <discriminator javaType="int" column="id">
+            <case value="2" resultType="blog">
+                <result property="title" column="title"/>
+            </case>
+        </discriminator>
+    </resultMap>
+    <select id="selectBlogDiscriminator" resultMap="blogResultDiscriminator">
+      SELECT * FROM BLOG WHERE ID = #{id}
+    </select>
+
+
+    <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        *
+        from blog
+    </select>
+</mapper>
