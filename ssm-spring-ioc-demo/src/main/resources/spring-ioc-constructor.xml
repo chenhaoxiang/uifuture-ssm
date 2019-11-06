@@ -1,0 +1,21 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        ">
+    <!-- 声明springIoCDaoImpl对象,交给spring创建 -->
+    <bean name="springIoCDaoImpl" class="com.uifuture.ssm.spring.ioc.demo14_7.dao.impl.SpringIoCDaoImpl"/>
+    <!-- 声明springIoCServiceImpl对象,通过构造注入 -->
+    <bean name="springIoCServiceImpl"
+          class="com.uifuture.ssm.spring.ioc.demo14_7.constructor.service.impl.SpringIoCServiceImpl">
+        <!-- 构造方法方式注入accountDao对象,-->
+        <constructor-arg ref="springIoCDaoImpl"/>
+    </bean>
+
+    <!--增加的Person配置-->
+    <bean id="person" class="com.uifuture.ssm.spring.ioc.demo14_7.constructor.entity.Person">
+        <constructor-arg index="1" type="java.lang.String" value="中国杭州"/>
+        <constructor-arg index="0" type="java.lang.String" value="Tom"/>
+    </bean>
+</beans>

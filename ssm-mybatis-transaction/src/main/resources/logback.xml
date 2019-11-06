@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--scan 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+ scan="true" scanPeriod="60 seconds" -->
+<configuration debug="true">
+
+    <property name="FILE_LOG_PATTERN"
+              value="${FILE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n}"/>
+    <!--配置颜色-->
+    <!--<property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%highlight(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %highlight(${LOG_LEVEL_PATTERN:-%5p}) %highlight(${PID:- }){magenta} %highlight(-&#45;&#45;){faint} %highlight([%15.15t]){faint} %highlight(%-40.40logger{39}){cyan} %highlight(:){faint} %highlight(%m%n)}"/>-->
+    <!-- 彩色日志格式
+        "%black", "%red", "%green","%yellow","%blue", "%magenta","%cyan", "%white", "%gray", "%boldRed","%boldGreen", "%boldYellow", "%boldBlue", "%boldMagenta""%boldCyan", "%boldWhite" and "%highlight"
+    -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%highlight([%-5level]) %white(%d{yyyy-MM-dd HH:mm:ss SSS}) %green([%thread]) %magenta(%logger) - %blue(%msg%n)"/>
+
+    <!--设置应用名-->
+    <contextName>uifuture-ssm</contextName>
+    <!--key:标识此<timestamp> 的名字；datePattern：设置将当前时间（解析配置文件的时间）转换为字符串的模式，遵循java.txt.SimpleDateFormat的格式。-->
+    <!--<timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>-->
+
+    <!--日志输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- %caller{1}，输出生成日志的调用者的位置信息，整数选项表示输出信息深度。 尽量避免使用 - 定位到行号 -->
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} [%msg] [huijava]%n</pattern>-->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--建立一个默认的root的logger-->
+    <root level="DEBUG">
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>

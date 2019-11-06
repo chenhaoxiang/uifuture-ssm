@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uifuture.ssm.mapper.UsersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.uifuture.ssm.entity.UsersEntity">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="qq_openid" property="qqOpenid"/>
+        <result column="head_image" property="headImage"/>
+        <result column="username" property="username"/>
+        <result column="signature" property="signature"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="mobile_phone" property="mobilePhone"/>
+        <result column="sex" property="sex"/>
+        <result column="birthday" property="birthday"/>
+        <result column="email" property="email"/>
+        <result column="weixin" property="weixin"/>
+        <result column="qq" property="qq"/>
+        <result column="mailbox_state" property="mailboxState"/>
+        <result column="ub" property="ub"/>
+        <result column="alipay_account_number" property="alipayAccountNumber"/>
+        <result column="alipay_real_name" property="alipayRealName"/>
+        <result column="real_name_state" property="realNameState"/>
+        <result column="description" property="description"/>
+        <result column="update_id" property="updateId"/>
+        <result column="type" property="type"/>
+        <result column="state" property="state"/>
+        <result column="create_id" property="createId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        update_time,
+        delete_time,
+        qq_openid, head_image, username, signature, password, salt, mobile_phone, sex, birthday, email, weixin, qq, mailbox_state, ub, alipay_account_number, alipay_real_name, real_name_state, description, update_id, `type`, state, create_id
+    </sql>
+
+</mapper>

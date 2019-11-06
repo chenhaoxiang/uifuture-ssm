@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <!-- 引入属性文件 classpath就是resource下-->
+
+    <!--在这里使用了EncryptPropertyPlaceholderConfigurer进行加载配置文件,注入Bean，无法分开写配置文件-->
+    <bean id="propertyConfigurer" class="com.uifuture.ssm.config.EncryptPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+                <value>classpath:redis.properties</value>
+                <value>classpath:email.properties</value>
+                <value>classpath:common.properties</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

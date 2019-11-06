@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <!--导入数据库的配置-->
+                <value>classpath:jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--使用注解情况下，配置该属性标签，将会自动扫描加载使用了类似注解@Controller、@Service等的bean-->
+    <!--<context:component-scan base-package="com"></context:component-scan>-->
+
+    <!-- 数据源配置, 使用 DriverManagerDataSource  -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+    <!-- mybatis的SQLSession的工厂 ：SqlSessionFactoryBean-->
+    <!-- mybatis的sqlsessionFactorybean：org.mybatis.spring.SqlSessionFactoryBean-->
+    <!-- 3、配置mybatis-plus的sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--自动扫描加载指定位置的mapper xml(配置具体SQL);
+        若xml与接口在同一个包下面，则不需要配置该属性   -->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:com/uifuture/chapter17/mapper/**/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--注册接口映射器,单个注册-->
+    <!--<bean id="testMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+    <!--&lt;!&ndash; 独立注册每一个映射器接口 &ndash;&gt;-->
+    <!--<property name="mapperInterface" value="com.souche.megatron.ssm.framework.fast.mapper.UsersMapper" />-->
+    <!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
+    <!--</bean>-->
+    <!--
+    mybatis自动扫描加载sql映射文件/接口：MapperScannerConfigurer
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 可以考虑使用通配符 * 扫描多个包，Mapper接口上面使用@Repository注解 -->
+        <property name="basePackage" value="com.uifuture.chapter17.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--注解过滤：如果不配置annotationClass，将扫描basePackage下的所有接口-->
+        <!--<property name="annotationClass" value="org.springframework.stereotype.Repository"/>-->
+        <!--如下配置将会只生成IUserMapper对应的dao-bean
+        <property name="markerInterface" value="com.web.mapper.IUserMapper" />  -->
+    </bean>
+
+
+    <!-- *************事务管理******************* -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 注解方式配置事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!--tx:annotation-driven可以通过配置proxy-target-class="true"将代理方式强制使用cglib 代理-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
+
+</beans>

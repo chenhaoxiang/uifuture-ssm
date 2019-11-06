@@ -1,0 +1,24 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置扫描com.uifuture.spring.core.bean.service包下的Bean
+        对于扫描到的组件，Spring会有默认的命名策略：第一个字母小写
+        在组件上使用注解后需要在Spring的文件中声明<context:component-scan/>
+        base-package属性指定一个需要扫描的基类包，Spring会扫描这个包及其子包的所有类
+        当需要扫描多个包的时候用“,”分开 -->
+    <context:component-scan base-package="com.uifuture.spring.core.bean" resource-pattern="service/*.class">
+    </context:component-scan>
+
+    <bean id="userService1" class="com.uifuture.spring.core.bean.service.UserServiceImpl"/>
+
+
+    <bean id="userDao" class="com.uifuture.spring.core.bean.dao.UserDao"/>
+    <bean id="userService2" class="com.uifuture.spring.core.bean.service.UserServiceImpl">
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+
+</beans>

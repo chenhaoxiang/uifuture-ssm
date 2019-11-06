@@ -1,0 +1,25 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <aop:aspectj-autoproxy/>
+    <context:component-scan base-package="com.uifuture">
+    </context:component-scan>
+
+    <aop:config>
+        <aop:aspect id="logAspect" ref="aspectBean">
+            <!--配置com.uifuture.spring.aop.xml.service包下所有类或接口的所有方法-->
+            <aop:pointcut id="servicePointcut" expression="execution(* com.uifuture.spring.aop.xml.service.*.*(..))"/>
+            <aop:before pointcut-ref="servicePointcut" method="doBefore"/>
+            <aop:after pointcut-ref="servicePointcut" method="doAfter"/>
+            <aop:around pointcut-ref="servicePointcut" method="doAround"/>
+            <aop:after-throwing pointcut-ref="servicePointcut" method="doThrowing" throwing="ex"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="aspectBean" class="com.uifuture.spring.aop.xml.PrintLog"/>
+    <bean id="userServiceImpl" class="com.uifuture.spring.aop.xml.service.impl.UserServiceImpl"></bean>
+</beans>

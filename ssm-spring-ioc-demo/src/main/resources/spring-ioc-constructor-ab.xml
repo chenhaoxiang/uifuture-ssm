@@ -1,0 +1,16 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        ">
+
+    <!--循环依赖通过构造方法注入-->
+    <bean id="a" class="com.uifuture.ssm.spring.ioc.demo14_7.constructor.pojo.A">
+        <constructor-arg ref="b"/>
+    </bean>
+
+    <bean id="b" class="com.uifuture.ssm.spring.ioc.demo14_7.constructor.pojo.B">
+        <constructor-arg ref="a"/>
+    </bean>
+</beans>

@@ -1,0 +1,15 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        ">
+    <!-- 声明springIoCDaoImpl对象,交给spring创建 -->
+    <bean name="springIoCDaoImpl" class="com.uifuture.ssm.spring.ioc.demo14_7.dao.impl.SpringIoCDaoImpl"/>
+    <!-- 声明springIoCServiceImpl对象,交给spring创建 -->
+    <bean name="springIoCServiceImpl" class="com.uifuture.ssm.spring.ioc.demo14_7.service.impl.SpringIoCServiceImpl">
+        <!-- 注入springIoCDao对象,需要set方法-->
+        <property name="springIoCDao" ref="springIoCDaoImpl"/>
+    </bean>
+
+</beans>

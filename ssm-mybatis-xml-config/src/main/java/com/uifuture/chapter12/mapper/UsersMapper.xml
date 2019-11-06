@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uifuture.chapter12.dao.UsersMapper">
+    <cache></cache>
+
+    <resultMap id="BaseResultMap" type="com.uifuture.chapter12.entity.Users">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, username, password, age, create_time, update_time
+  </sql>
+
+    <resultMap id="userResultMap" type="com.uifuture.chapter12.entity.Users">
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+
+    <select id="findUserResultMap"
+            resultMap="userResultMap">
+        SELECT * FROM users
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="username != null">
+                username = #{username}
+            </if>
+            <if test="age != null">
+                AND age = #{age}
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="findUsers"
+            resultMap="userResultMap">
+        SELECT * FROM users WHERE
+        <choose>
+            <when test="username != null">
+                AND username = #{username}
+            </when>
+            <when test="age != null">
+                AND age = #{age}
+            </when>
+            <otherwise>
+                AND create_time  <![CDATA[ > ]]>  #{createTime}
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectuserResultMap" parameterType="java.lang.Integer" resultMap="userResultMap">
+        select
+        id, username, password, age, create_time, update_time
+        from users
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectUsers" resultType="map">
+        select
+        id, username, password, age, create_time, update_time
+        from users
+        where id = #{id}
+    </select>
+
+    <select id="selectUserIn" resultType="users">
+        SELECT *
+        FROM users
+        WHERE ID in
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectUsersPrimaryKey" resultType="users">
+        select
+        id, username, password, age, create_time, update_time
+        from users
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from users
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <!--注意，此种写法无法返回对象的id，这是一个错误的演示-->
+    <insert id="insertList" parameterType="com.uifuture.chapter12.entity.Users">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        insert into users (
+        <foreach item="item" collection="list" separator=",">
+            username, password, age
+        </foreach>
+        )
+
+        values
+        <foreach item="item" collection="list" separator="," index="index">
+            (
+            <if test="item.username != null">
+                #{item.username,jdbcType=VARCHAR},
+            </if>
+            #{item.password,jdbcType=VARCHAR}, #{item.age,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <insert id="insert" parameterType="com.uifuture.chapter12.entity.Users">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into users (username, password, age,create_time, update_time)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.uifuture.chapter12.entity.Users">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.uifuture.chapter12.entity.Users">
+        update users
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKeySelectiveTrim" parameterType="com.uifuture.chapter12.entity.Users">
+        update users
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.uifuture.chapter12.entity.Users">
+    update users
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

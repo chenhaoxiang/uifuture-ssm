@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.2.xsd
+">
+
+    <!-- 引入属性文件 classpath就是resource下-->
+    <!--<context:property-placeholder local-override="true" location="classpath:config.properties"  ignore-unresolvable="true"/>-->
+    <bean id="propertyConfigurer" class="com.ssm.config.EncryptPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 引入属性文件 classpath就是resource下-->
+    <!--<context:property-placeholder local-override="true" location="classpath:config.properties"-->
+    <!--file-encoding="UTF-8" properties-ref="decodeProperties" ignore-unresolvable="true"/>-->
+    <!--&lt;!&ndash; 用来解密jdbc.properties中的属性之后然后存放到Properties类中 &ndash;&gt;-->
+    <!--<bean id="decodeProperties" class="com.uifuture.ssm.config.DecodeProperties">-->
+    <!--<constructor-arg value="jdbc_username,jdbc_password"/>-->
+    <!--</bean>-->
+
+    <!-- 包自动扫描 不扫描Controller注解-->
+    <context:component-scan base-package="com.ssm">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 产生sqlsessionfactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:spring-mybatis.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:com/ssm/mapping/*.xml</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 自动扫描mapper接口-->
+    <!-- 自动扫描mapper接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+          p:basePackage="com.uifuture.ssm.**.dao"
+          p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close"
+          p:driverClassName="${driverClassName}"
+          p:url="${jdbc_url}"
+          p:username="${jdbc_username}"
+          p:password="${jdbc_password}"
+          p:initialSize="${jdbc_init}"
+          p:minIdle="${jdbc_minIdle}"
+          p:maxActive="${jdbc_maxActive}"
+          p:filters="stat,wall"
+    >
+    </bean>
+
+    <!-- 配置事物管理类 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource">
+    </bean>
+
+    <!-- 开启注解式事物扫描 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 基于AspectJ的自动代理.使用AnnotationAwareAspectJAutoProxyCreator  -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!--proxy-target-class="true" Spring建议
+    通过 <tx:annotation-driven/> 元素的 "proxy-target-class" 属性值来控制是基于接口的还是基于类的代理被创建。
+如果 "proxy-target-class" 属值被设置为 "true"，那么基于类的代理将起作用（这时需要CGLIB库cglib.jar在CLASSPATH中）。
+如果 "proxy-target-class" 属值被设置为 "false" 或者这个属性被省略，那么标准的JDK基于接口的代理将起作用。
+     接口上的注解不能继承
+    -->
+
+
+</beans>

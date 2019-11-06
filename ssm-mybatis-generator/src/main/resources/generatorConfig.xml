@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--导入属性配置 -->
+    <properties resource="generator.properties"/>
+
+    <!--指定特定数据库的jdbc驱动jar包的位置 -->
+    <classPathEntry location="${jdbc.driverLocation}"/>
+
+
+    <!--<context id="MySQLTables" targetRuntime="MyBatis3Simple">-->
+    <!--MyBatis3可以生成selestive-->
+    <context id="prod" targetRuntime="MyBatis3">
+
+        <!-- 自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表；
+        一般保留默认值，遇到数据库关键字（Java关键字），使用columnOverride覆盖 -->
+        <property name="autoDelimitKeywords" value="false"/>
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+
+        <!--生成拓展类
+        依赖：
+        <dependency>
+            <groupId>xyz.mrwood.mybatis.generator.plugin</groupId>
+            <artifactId>mybatis-generator-plugin</artifactId>
+            <version>1.0</version>
+        </dependency>
+        -->
+        <!--<plugin type="xyz.mrwood.mybatis.generator.plugin.plugins.ExtPlugin" />-->
+        <!--为生成的Java model添加序列化接口，并生成serialVersionUID字段-->
+        <!--<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />-->
+        <!--生成tostring方法-->
+        <!--<plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
+
+        <!--jdbc的数据库连接 -->
+        <jdbcConnection driverClass="${jdbc.driverClass}" connectionURL="${jdbc.connectionURL}"
+                        userId="${jdbc.userId}" password="${jdbc.password}">
+        </jdbcConnection>
+
+
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制
+        java类型处理器
+        用于处理DB中的类型到Java中的类型，默认使用 org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl
+        注意一点，默认会先尝试使用Integer，Long，Short等来对应DECIMAL和 NUMERIC数据类型；
+        -->
+        <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+            <!--
+               true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+               false：默认,
+                   scale>0;length>18：使用BigDecimal;
+                   scale=0;length[10,18]：使用Long；
+                   scale=0;length[5,9]：使用Integer；
+                   scale=0;length<5：使用Short；
+            -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- Model模型生成器,用来生成含有主键key的类，记录类 以及查询Example类
+            targetPackage     指定生成的model生成所在的包名
+            targetProject     指定在该项目下所在的路径
+        -->
+        <javaModelGenerator targetPackage="${model.package}"
+                            targetProject="${model.project}">
+            <!-- 是否对model添加 构造函数
+              自动为每一个生成的类创建一个构造方法，构造方法包含了所有的field；而不是使用setter；-->
+            <property name="constructorBased" value="false"/>
+
+            <!-- 是否允许子包，即targetPackage.schemaName.tableName
+             在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false
+            -->
+            <property name="enableSubPackages" value="false"/>
+
+            <!-- 建立的Model对象是否 不可改变  如果为true，即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+
+            <!-- 设置是否在setter方法中，对String类型字段调用trim()方法 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件
+         生成SQL map的XML文件生成器，
+        注意，在Mybatis3之后，我们可以使用mapper.xml文件+Mapper接口（或者不用mapper接口），
+            或者只使用Mapper接口+Annotation，所以，如果 javaClientGenerator配置中配置了需要生成XML的话，这个元素就必须配置
+        targetPackage/targetProject:同javaModelGenerator
+        -->
+        <sqlMapGenerator targetPackage="${mapper.xml.package}" targetProject="${mapper.xml.project}">
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+
+        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+                type="ANNOTATEDMAPPER",生成Java Model 和基于注解（SQL生成在annotation中）的Mapper对象
+                type="MIXEDMAPPER",使用混合配置，会生成Mapper接口，并适当添加合适的Annotation，但是XML会生成在XML中；
+                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+                注意，如果context是MyBatis3Simple：只支持ANNOTATEDMAPPER和XMLMAPPER
+        -->
+        <javaClientGenerator targetPackage="${mapper.impl.package}"
+                             targetProject="${mapper.impl.project}" type="XMLMAPPER">
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+            <property name="enableSubPackages" value="false"/>
+            <!--
+                    定义Maper.java 源代码中的ByExample() 方法的可视性，可选的值有：
+                    public;
+                    private;
+                    protected;
+                    default
+                    注意：如果 targetRuntime="MyBatis3",此参数被忽略
+            <property name="exampleMethodVisibility" value=""/>
+             -->
+            <!--
+              方法名计数器
+              Important note: this property is ignored if the target runtime is MyBatis3.
+            <property name="methodNameCalculator" value=""/>
+             -->
+        </javaClientGenerator>
+
+        <!-- 选择一个table来生成相关文件，可以有一个或多个table，必须要有table元素
+            选择的table会生成一下文件：
+            1，SQL map文件
+            2，生成一个主键类；
+            3，除了BLOB和主键的其他字段的类；
+            4，包含BLOB的类；
+            5，一个用户生成动态查询的条件类（selectByExample, deleteByExample），可选；
+            6，Mapper接口（可选）
+
+            tableName（必要）：要生成对象的表名；
+            注意：大小写敏感问题。正常情况下，MBG会自动的去识别数据库标识符的大小写敏感度，在一般情况下，MBG会
+                根据设置的schema，catalog或tablename去查询数据表，按照下面的流程：
+                1，如果schema，catalog或tablename中有空格，那么设置的是什么格式，就精确的使用指定的大小写格式去查询；
+                2，否则，如果数据库的标识符使用大写的，那么MBG自动把表名变成大写再查找；
+                3，否则，如果数据库的标识符使用小写的，那么MBG自动把表名变成小写再查找；
+                4，否则，使用指定的大小写格式查询；
+            另外的，如果在创建表的时候，使用的""把数据库对象规定大小写，就算数据库标识符是使用的大写，在这种情况下也会使用给定的大小写来创建表名；
+            这个时候，请设置delimitIdentifiers="true"即可保留大小写格式；
+
+            可选：
+            1，schema：数据库的schema；
+            2，catalog：数据库的catalog；
+            3，alias：为数据表设置的别名，如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName
+            4，domainObjectName：生成的domain类的名字，如果不设置，直接使用表名作为domain类的名字；可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；
+            5，enableInsert（默认true）：指定是否生成insert语句；
+            6，enableSelectByPrimaryKey（默认true）：指定是否生成按照主键查询对象的语句（就是getById或get）；
+            7，enableSelectByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询语句；
+            8，enableUpdateByPrimaryKey（默认true）：指定是否生成按照主键修改对象的语句（即update)；
+            9，enableDeleteByPrimaryKey（默认true）：指定是否生成按照主键删除对象的语句（即delete）；
+            10，enableDeleteByExample（默认true）：MyBatis3Simple为false，指定是否生成动态删除语句；
+            11，enableCountByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询总条数语句（用于分页的总条数查询）；
+            12，enableUpdateByExample（默认true）：MyBatis3Simple为false，指定是否生成动态修改语句（只修改对象中不为空的属性）；
+            13，modelType：参考context元素的defaultModelType，相当于覆盖；
+            14，delimitIdentifiers：参考tableName的解释，注意，默认的delimitIdentifiers是双引号，如果类似MYSQL这样的数据库，使用的是`（反引号，那么还需要设置context的beginningDelimiter和endingDelimiter属性）
+            15，delimitAllColumns：设置是否所有生成的SQL中的列名都使用标识符引起来。默认为false，delimitIdentifiers参考context的属性
+
+            注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
+         -->
+        <table tableName="users"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <!--
+            用于指定自动生成主键的属性.如果指定该元素,MBG会在生成insert的SQL映射文件中插入一个合适的<selectKey>元素.简单来说,就是可以用来做自增主键的设置.
+            必选属性:
+            column : 生成列 的列名.
+            sqlStatement : 返回新值的SQL语句.一些特殊值为 :MySql,转化为`SELECT LAST_INSERT_ID() . JDBC在MyBatis3中,生成正确的代码,且脱离数据库的限制.
+            可选属性:
+
+            identity : 默认为false.如果为true,被标记为identity列,且<selectKey>元素后被插入在insert后面.如果为false,则会被插入在insert之前.
+            type : 为selectKey元素指定类型, pre或post.指定类型后,selectKey永远在insert语句之前.
+            理解这个序列的意思,和插入前后的意思.序列表示表是一个序列,插入之前要先查询表,就需要知道当前指向的位置即主键.而自增主键要在插入之后,才能知道自己的大小.
+            -->
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"></generatedKey>
+        </table>
+
+        <table tableName="blog"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"></generatedKey>
+        </table>
+    </context>
+
+
+
+</generatorConfiguration>
+

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+
+
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!-- 引入属性文件 classpath就是resource下-->
+    <!--<context:property-placeholder local-override="true" location="classpath:config.properties"  ignore-unresolvable="true"/>-->
+    <!--无法分开进行加载不同的配置文件，需要在一块进行加载-->
+    <!--<bean id="propertyConfigurer" class="com.uifuture.ssm.config.EncryptPropertyPlaceholderConfigurer">-->
+    <!--<property name="locations">-->
+    <!--<list>-->
+    <!--<value>classpath:config.properties</value>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+    <!--spring解密数据库账号密码的第二种方式-->
+    <!-- 引入属性文件 classpath就是resource下-->
+    <!--<context:property-placeholder local-override="true" location="classpath:config.properties"-->
+    <!--file-encoding="UTF-8" properties-ref="decodeProperties" ignore-unresolvable="true"/>-->
+    <!--&lt;!&ndash; 用来解密jdbc.properties中的属性之后然后存放到Properties类中 &ndash;&gt;-->
+    <!--<bean id="decodeProperties" class="com.uifuture.ssm.config.DecodeProperties">-->
+    <!--<constructor-arg value="jdbc_username,jdbc_password"/>-->
+    <!--</bean>-->
+
+    <!-- 包自动扫描 不扫描Controller注解-->
+    <context:component-scan base-package="com.uifuture.ssm">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- mybatis的SQLSession的工厂 ：SqlSessionFactoryBean-->
+    <!-- mybatis的sqlsessionFactorybean：org.mybatis.spring.SqlSessionFactoryBean-->
+    <!-- 3、配置mybatis-plus的sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:/mapper/*.xml</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 自动扫描mapper接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+          p:basePackage="com.uifuture.ssm.**.mapper"
+          p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+
+    <!-- 数据源配置, 使用 DriverManagerDataSource  -->
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">-->
+    <!--<property name="driverClassName" value="${driverClassName}"/>-->
+    <!--<property name="url" value="${jdbc_url}"/>-->
+    <!--<property name="username" value="${jdbc_username}"/>-->
+    <!--<property name="password" value="${jdbc_password}"/>-->
+    <!--</bean>-->
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${jdbc_url}"/>
+        <property name="username" value="${jdbc_username}"/>
+        <property name="password" value="${jdbc_password}"/>
+        <property name="driverClassName" value="${driverClassName}"/>
+
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${jdbc_init}"/>
+        <property name="minIdle" value="${jdbc_minIdle}"/>
+        <property name="maxActive" value="${jdbc_maxActive}"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="2000"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="600000"/>
+        <property name="maxEvictableIdleTimeMillis" value="900000"/>
+
+        <property name="validationQuery" value="select 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        <property name="keepAlive" value="true"/>
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat,wall"/>
+    </bean>
+
+    <!-- 配置druid监控spring jdbc -->
+    <bean id="druid-stat-interceptor"
+          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+    </bean>
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+          scope="prototype">
+        <property name="patterns">
+            <list>
+                <value>com.uifuture.ssm.service.*</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置事物管理类 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource">
+    </bean>
+
+    <!-- 开启注解式事物扫描 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>

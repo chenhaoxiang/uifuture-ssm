@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- -->
+    <settings>
+        <!-- 指定 LOG4J为MyBatis 所用日志的具体实现，未指定时将自动查找。
+         需要设置 log4j.properties /log4j.xml 文件-->
+        <setting name="logImpl" value="LOG4J"/>
+        <!-- 启用下划线与驼峰式命名规则的映射（如first_name => firstName）
+         开启后，mapper配置不需要写字段与属性的配置，会自动映射。-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!-- 别名配置 -->
+    <!--<typeAliases>-->
+    <!--进行dao实体类的一些别名配置-->
+    <!--</typeAliases>-->
+</configuration>
