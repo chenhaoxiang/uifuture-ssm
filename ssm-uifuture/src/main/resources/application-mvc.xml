@@ -3,12 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/mvc
-http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- 配置自定扫描的包 -->
     <context:component-scan base-package="com.uifuture.ssm.controller"/>
     <!-- 整合Freemarker -->
@@ -92,5 +95,9 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
         <!--设置单个文件最大大小，单位字节，50MB-->
         <property name="maxUploadSize" value="52428800"></property>
     </bean>
+
+    <!--aop的切面部署可以决定扫描service还是controller-->
+    <!--spring和spring mvc都进行配置，可以在两边生效-->
+    <aop:aspectj-autoproxy proxy-target-class="false"/>
 
 </beans>
