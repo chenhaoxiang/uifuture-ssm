@@ -9,6 +9,7 @@ import com.uifuture.ssm.base.BaseController;
 import com.uifuture.ssm.common.RedisConstants;
 import com.uifuture.ssm.config.SysConfig;
 import com.uifuture.ssm.convert.UsersPayConvert;
+import com.uifuture.ssm.dto.PageDTO;
 import com.uifuture.ssm.entity.UsersEntity;
 import com.uifuture.ssm.entity.UsersPayEntity;
 import com.uifuture.ssm.enums.PayTypeEnNameEnum;
@@ -66,7 +67,7 @@ public class UsersPayController extends BaseController {
     /**
      * 回调通知接口链接
      */
-    private static final String notifyUrl = "http://127.0.0.1:8888/users-pay-entity/alipay/notify";
+    private static final String notifyUrl = "http://uifuture.com/users-pay-entity/alipay/notify";
 
     @Autowired
     private UsersPayService usersPayService;
@@ -149,12 +150,117 @@ public class UsersPayController extends BaseController {
     }
 
     /**
-     * 异步发送通知邮件
+     * TODO 异步发送通知邮件
      * @param outTradeNo
      */
     @Async
     public void sendActiveEmail(String outTradeNo){
+        //通过token控制，1天内有效
+        String token = PasswordUtils.getSalt();
 
+
+    }
+
+
+    /**
+     * TODO 根据订单号获取支付信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getPayInfo", method = RequestMethod.GET)
+    public ResultModel getPayInfo(String orderNumber) {
+        if (StringUtils.isEmpty(orderNumber)) {
+            return ResultModel.errorNoData("参数错误");
+        }
+        UsersPayEntity usersPayEntity = usersPayService.getByOrderNumber(orderNumber);
+        return ResultModel.success(usersPayEntity);
+    }
+
+    /**
+     * TODO 获取待审核的订单列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getCheckList", method = RequestMethod.GET)
+    public ResultModel getCheckList() {
+        //管理员才能访问
+
+
+        return ResultModel.success("success");
+    }
+
+
+    /**
+     * TODO 获取未进行支付的订单列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getNoPayList", method = RequestMethod.GET)
+    public ResultModel getNoPayList() {
+        //管理员才能访问
+
+
+        return ResultModel.success("success");
+    }
+
+    /**
+     * TODO 获取订单支付状态
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getPayState", method = RequestMethod.GET)
+    public ResultModel getPayState(String orderNumber) {
+        if (StringUtils.isEmpty(orderNumber)) {
+            return ResultModel.errorNoData("参数错误");
+        }
+
+        return ResultModel.success("success");
+    }
+
+    /**
+     * TODO 订单支付审核通过
+     *
+     * @return
+     */
+    @RequestMapping(value = "/payPass", method = RequestMethod.POST)
+    public ResultModel pass(String orderNumber, String token) {
+        if (StringUtils.isEmpty(orderNumber)) {
+            return ResultModel.errorNoData("参数错误");
+        }
+        if (StringUtils.isEmpty(token)) {
+            return ResultModel.errorNoData("参数错误");
+        }
+
+        return ResultModel.success("success");
+    }
+
+
+    /**
+     * TODO 审核驳回支付订单
+     *
+     * @return
+     */
+    @RequestMapping(value = "/payBack", method = RequestMethod.POST)
+    public ResultModel payBack(String orderNumber) {
+        if (StringUtils.isEmpty(orderNumber)) {
+            return ResultModel.errorNoData("参数错误");
+        }
+
+        return ResultModel.success("success");
+    }
+
+    /**
+     * TODO 分页获取所有的订单
+     *
+     * @return
+     */
+    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    public ResultModel page(PageDTO pageDTO) {
+        if (pageDTO == null) {
+            return ResultModel.errorNoData("参数错误");
+        }
+
+        return ResultModel.success("success");
     }
 
 

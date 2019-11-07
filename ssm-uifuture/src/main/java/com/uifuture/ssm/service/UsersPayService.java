@@ -13,4 +13,11 @@ import com.uifuture.ssm.entity.UsersPayEntity;
  */
 public interface UsersPayService extends IService<UsersPayEntity> {
 
+    /**
+     * 通过订单号获取订单
+     *
+     * @param orderNumber
+     * @return
+     */
+    UsersPayEntity getByOrderNumber(String orderNumber);
 }
