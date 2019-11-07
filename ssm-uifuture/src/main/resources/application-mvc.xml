@@ -68,6 +68,18 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
             <mvc:mapping path="/usersComment/deleteComment"/>
             <bean class="com.uifuture.ssm.interceptors.LoginInterceptor"/>
         </mvc:interceptor>
+
+        <!--管理员登录拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/users-pay-entity/getPayInfo"/>
+            <mvc:mapping path="/users-pay-entity/getCheckList"/>
+            <mvc:mapping path="/users-pay-entity/getNoPayList"/>
+            <mvc:mapping path="/users-pay-entity/getPayState"/>
+            <mvc:mapping path="/users-pay-entity/payPass"/>
+            <mvc:mapping path="/users-pay-entity/payBack"/>
+            <mvc:mapping path="/users-pay-entity/page"/>
+            <bean class="com.uifuture.ssm.interceptors.AdminLoginInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
 

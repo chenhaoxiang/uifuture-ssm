@@ -1,5 +1,6 @@
 package com.uifuture.ssm.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.uifuture.ssm.entity.UsersPayEntity;
 import com.uifuture.ssm.mapper.UsersPayMapper;
@@ -17,4 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersPayServiceImpl extends ServiceImpl<UsersPayMapper, UsersPayEntity> implements UsersPayService {
 
+    @Override
+    public UsersPayEntity getByOrderNumber(String orderNumber) {
+        QueryWrapper<UsersPayEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(UsersPayEntity.ORDER_NUMBER, orderNumber);
+        return this.getOne(queryWrapper);
+    }
 }
