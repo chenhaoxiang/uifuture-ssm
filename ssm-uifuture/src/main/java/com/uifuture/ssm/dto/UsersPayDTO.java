@@ -32,9 +32,14 @@ public class UsersPayDTO implements Serializable {
     private String email;
 
     /**
-     * 显示状态 0待审核 1确认显示 2驳回 3通过不展示 4已扫码
+     * 显示状态 0待审核 1通过 2驳回 3已扫码
      */
     private Integer state;
+
+    /**
+     * 状态描述
+     */
+    private String stateStr;
 
     /**
      * pay_type的en_name，支付类型
@@ -86,5 +91,10 @@ public class UsersPayDTO implements Serializable {
      */
     private String orderNumber;
 
+
+    /**
+     * 用户id
+     */
+    private Integer usersId;
 
 }

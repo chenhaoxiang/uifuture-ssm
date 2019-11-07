@@ -2,6 +2,8 @@ package com.uifuture.ssm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.uifuture.ssm.entity.UsersEntity;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * <p>
@@ -13,4 +15,12 @@ import com.uifuture.ssm.entity.UsersEntity;
  */
 public interface UsersMapper extends BaseMapper<UsersEntity> {
 
+    /**
+     * 操作UB
+     *
+     * @param usersId
+     * @param ub
+     */
+    @Update("update users set ub=ub+#{ub} where id=#{usersId}")
+    void operateUB(@Param("usersId") Integer usersId, @Param("ub") Integer ub);
 }

@@ -9,7 +9,7 @@ import com.uifuture.ssm.entity.UsersPayEntity;
  * </p>
  *
  * @author chenhx
- * @since 2019-11-06
+ * @since 2019-11-07
  */
 public interface UsersPayMapper extends BaseMapper<UsersPayEntity> {
 

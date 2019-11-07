@@ -22,6 +22,7 @@
         <result column="back_url" property="backUrl" />
         <result column="close_url" property="closeUrl" />
         <result column="order_number" property="orderNumber" />
+        <result column="users_id" property="usersId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -30,7 +31,7 @@
         create_time,
         update_time,
         delete_time,
-        money, info, email, state, pay_type_en_name, pay_num, custom, mobile, device, token_num, pass_url, back_url, close_url, order_number
+        money, info, email, state, pay_type_en_name, pay_num, custom, mobile, device, token_num, pass_url, back_url, close_url, order_number, users_id
     </sql>
 
 </mapper>

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  * </p>
  *
  * @author chenhx
- * @since 2019-11-06
+ * @since 2019-11-07
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -44,10 +44,7 @@ public class UsersRechargeUbEntity extends BaseEntity {
      */
     private String orderNumber;
 
-    /**
-     * 支付类型id
-     */
-    private Integer payTypeId;
+    public static final String PAY_TYPE_EN_NAME = "pay_type_en_name";
 
     /**
      * 用户支付详细信息id
@@ -62,8 +59,10 @@ public class UsersRechargeUbEntity extends BaseEntity {
     public static final String UB_NUMBER = "ub_number";
 
     public static final String ORDER_NUMBER = "order_number";
-
-    public static final String PAY_TYPE_ID = "pay_type_id";
+    /**
+     * 支付类型名称
+     */
+    private String payTypeEnName;
 
     public static final String USERS_PAY_ID = "users_pay_id";
 

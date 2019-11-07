@@ -25,5 +25,9 @@ public class PageDTO implements Serializable {
      */
     private Integer pageSize = 20;
 
+    /**
+     * 用户id
+     */
+    private Integer usersId;
 
 }
