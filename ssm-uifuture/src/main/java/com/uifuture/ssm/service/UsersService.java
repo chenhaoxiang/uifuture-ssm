@@ -2,6 +2,7 @@ package com.uifuture.ssm.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.uifuture.ssm.entity.UsersEntity;
+import com.uifuture.ssm.entity.UsersPayEntity;
 
 /**
  * <p>
@@ -48,6 +49,11 @@ public interface UsersService extends IService<UsersEntity> {
      */
     UsersEntity selectByEmail(String email);
 
-
-
+    /**
+     * 用户支付成功后增加UB
+     *
+     * @param usersPayEntity
+     * @return
+     */
+    void addUB(UsersPayEntity usersPayEntity);
 }

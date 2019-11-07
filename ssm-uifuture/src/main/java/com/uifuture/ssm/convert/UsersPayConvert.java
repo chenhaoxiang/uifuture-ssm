@@ -4,10 +4,13 @@
  */
 package com.uifuture.ssm.convert;
 
+import com.uifuture.ssm.dto.UsersPayDTO;
 import com.uifuture.ssm.entity.UsersPayEntity;
 import com.uifuture.ssm.req.UsersPayReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author chenhx
@@ -19,4 +22,8 @@ public interface UsersPayConvert {
     UsersPayConvert INSTANCE = Mappers.getMapper(UsersPayConvert.class);
 
     UsersPayEntity usersPayReqToUsersPayEntity(UsersPayReq usersPayReq);
+
+    UsersPayDTO usersPayEntityToUsersPayDTO(UsersPayEntity usersPayEntity);
+
+    List<UsersPayDTO> usersPayEntityToUsersPayDTOList(List<UsersPayEntity> usersPayEntityS);
 }

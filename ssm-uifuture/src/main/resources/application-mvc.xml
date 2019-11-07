@@ -75,6 +75,7 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
             <mvc:mapping path="/users-pay-entity/getCheckList"/>
             <mvc:mapping path="/users-pay-entity/getNoPayList"/>
             <mvc:mapping path="/users-pay-entity/getPayState"/>
+            <mvc:mapping path="/users-pay-entity/getRejectList"/>
             <mvc:mapping path="/users-pay-entity/payPass"/>
             <mvc:mapping path="/users-pay-entity/payBack"/>
             <mvc:mapping path="/users-pay-entity/page"/>

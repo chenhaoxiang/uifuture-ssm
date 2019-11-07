@@ -12,7 +12,7 @@
         <result column="money" property="money" />
         <result column="ub_number" property="ubNumber" />
         <result column="order_number" property="orderNumber" />
-        <result column="pay_type_id" property="payTypeId" />
+        <result column="pay_type_en_name" property="payTypeEnName"/>
         <result column="users_pay_id" property="usersPayId" />
     </resultMap>
 
@@ -22,7 +22,7 @@
         create_time,
         update_time,
         delete_time,
-        user_id, money, ub_number, order_number, pay_type_id, users_pay_id
+        user_id, money, ub_number, order_number, pay_type_en_name, users_pay_id
     </sql>
 
 </mapper>

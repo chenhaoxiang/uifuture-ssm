@@ -57,6 +57,7 @@ public enum ResultCodeEnum {
     BUSINESS_PROCESS_FAILED("业务处理失败", 9983),
     PLEASE_UPLOAD_THE_RESOURCE_FILE_FIRST("请先上传资源文件", 9982),
     DATA_DOES_NOT_EXIST("数据不存在", 9981),
+    USERS_DOES_NOT_EXIST("用户不存在", 9980),
     ;
 
     private String name;

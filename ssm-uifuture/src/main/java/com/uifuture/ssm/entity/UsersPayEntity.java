@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  * </p>
  *
  * @author chenhx
- * @since 2019-11-06
+ * @since 2019-11-07
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -39,10 +39,7 @@ public class UsersPayEntity extends BaseEntity {
      */
     private String email;
 
-    /**
-     * 显示状态 0待审核 1确认显示 2驳回 3通过不展示 4已扫码
-     */
-    private Integer state;
+    public static final String USERS_ID = "users_id";
 
     /**
      * pay_type的en_name，支付类型
@@ -93,6 +90,10 @@ public class UsersPayEntity extends BaseEntity {
      * 订单号
      */
     private String orderNumber;
+    /**
+     * 显示状态 0待审核 1通过 2驳回 3已扫码
+     */
+    private Integer state;
 
 
     public static final String MONEY = "money";
@@ -122,5 +123,9 @@ public class UsersPayEntity extends BaseEntity {
     public static final String CLOSE_URL = "close_url";
 
     public static final String ORDER_NUMBER = "order_number";
+    /**
+     * 用户id
+     */
+    private Integer usersId;
 
 }
