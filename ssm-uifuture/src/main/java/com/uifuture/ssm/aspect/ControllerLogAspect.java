@@ -21,8 +21,9 @@ import org.springframework.stereotype.Component;
  *
  * 同样这样的情况也存在于数据库事务中, 如果Service的Bean扫描配置在spring-mvc.xml中, 而数据库事务管理器配置在application.xml中, 会导致数据库事务失效, 原理一样.
  *
- * 所以这里 ,我们需要把AOP放置在Controller扫描配置的文件中.
- * Spring的配置文件application.xml包含了 开启AOP自动代理,Service扫描配置, 现在只包含了service的自动扫描配置
+ * 所以这里 ,我们需要把AOP也放置在Controller扫描配置的文件中.
+ *
+ * （需要spring配置文件包含aop自动代理，spring mvc的配置文件也需要包含，开启controller的代理）
  *
  * @author chenhx
  * @version ServiceLogAspect.java, v 0.1 2019-09-18 18:09 chenhx
