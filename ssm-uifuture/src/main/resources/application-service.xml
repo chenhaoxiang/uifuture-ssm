@@ -2,16 +2,11 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx
-http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
-
-
-http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- 引入属性文件 classpath就是resource下-->
     <!--<context:property-placeholder local-override="true" location="classpath:config.properties"  ignore-unresolvable="true"/>-->
@@ -32,12 +27,6 @@ http://www.springframework.org/schema/context/spring-context-4.2.xsd">
     <!--<bean id="decodeProperties" class="com.uifuture.ssm.config.DecodeProperties">-->
     <!--<constructor-arg value="jdbc_username,jdbc_password"/>-->
     <!--</bean>-->
-
-    <!-- 包自动扫描 不扫描Controller注解-->
-    <context:component-scan base-package="com.uifuture.ssm">
-        <context:exclude-filter type="annotation"
-                                expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
 
     <!-- mybatis的SQLSession的工厂 ：SqlSessionFactoryBean-->
     <!-- mybatis的sqlsessionFactorybean：org.mybatis.spring.SqlSessionFactoryBean-->

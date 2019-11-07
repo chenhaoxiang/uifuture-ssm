@@ -29,7 +29,7 @@ public class ServiceLogAspect {
      *
      * @param joinPoint
      */
-    @Around("execution(* com.uifuture.ssm.service.impl.*.*(..))")
+    @Around("execution(public * com.uifuture.ssm.service.impl.*.*(..))")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         String methodName = methodSignature.getName();
