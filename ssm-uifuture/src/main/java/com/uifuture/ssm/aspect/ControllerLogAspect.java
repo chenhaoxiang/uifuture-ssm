@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ControllerLogAspect {
     /**
-     * 通过@Before注解声明一个建言,此建言直接使用拦截规则作为参数
+     * 通过@Around注解声明一个建言,此建言直接使用拦截规则作为参数
      * 拦截接口实现
      *
      * @param joinPoint
@@ -59,5 +59,4 @@ public class ControllerLogAspect {
         }
         return result;
     }
-
 }
