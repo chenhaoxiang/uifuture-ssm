@@ -228,6 +228,37 @@ public class UsersPayController extends BaseController {
         executorService.submit(sendEmailCallable);
     }
 
+    /**
+     * 订单支付审核通过
+     *
+     * @return
+     */
+    @RequestMapping(value = "/payPass", method = RequestMethod.POST)
+    public ResultModel pass(String orderNumber, String token) {
+        if (StringUtils.isEmpty(orderNumber)) {
+            return ResultModel.errorNoData("参数错误");
+        }
+        if (StringUtils.isEmpty(token)) {
+            return ResultModel.errorNoData("参数错误");
+        }
+        //校验token未超时
+        String value = redisClient.get(token).getString();
+        if (StringUtils.isEmpty(value)) {
+            return ResultModel.errorNoData("该订单已经无法再进行审核");
+        }
+
+        UsersPayEntity usersPayEntity = usersPayService.getByOrderNumber(orderNumber);
+        if (usersPayEntity == null) {
+            return ResultModel.errorNoData("参数错误");
+        }
+        if (!UsersPayStateEnum.TO_BE_AUDITED.getValue().equals(usersPayEntity.getState())) {
+            return ResultModel.errorNoData("订单状态错误");
+        }
+        //用户增加记录和UB
+        usersService.addUB(usersPayEntity);
+        return ResultModel.success("success");
+    }
+
 
     /**
      * 根据订单号获取支付信息
@@ -297,36 +328,6 @@ public class UsersPayController extends BaseController {
         return ResultModel.success(usersPayDTO);
     }
 
-    /**
-     * 订单支付审核通过
-     *
-     * @return
-     */
-    @RequestMapping(value = "/payPass", method = RequestMethod.POST)
-    public ResultModel pass(String orderNumber, String token) {
-        if (StringUtils.isEmpty(orderNumber)) {
-            return ResultModel.errorNoData("参数错误");
-        }
-        if (StringUtils.isEmpty(token)) {
-            return ResultModel.errorNoData("参数错误");
-        }
-        //校验token未超时
-        String value = redisClient.get(token).getString();
-        if (StringUtils.isEmpty(value)) {
-            return ResultModel.errorNoData("该订单已经无法再进行审核");
-        }
-
-        UsersPayEntity usersPayEntity = usersPayService.getByOrderNumber(orderNumber);
-        if (usersPayEntity == null) {
-            return ResultModel.errorNoData("参数错误");
-        }
-        if (!UsersPayStateEnum.TO_BE_AUDITED.getValue().equals(usersPayEntity.getState())) {
-            return ResultModel.errorNoData("订单状态错误");
-        }
-        //用户增加记录和UB
-        usersService.addUB(usersPayEntity);
-        return ResultModel.success("success");
-    }
 
 
     /**
