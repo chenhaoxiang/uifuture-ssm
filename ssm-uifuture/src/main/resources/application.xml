@@ -11,4 +11,6 @@
     <import resource="application-properties.xml"></import>
     <import resource="application-redis.xml"></import>
     <import resource="application-aop.xml"></import>
+    <!--MQ消息队列配置-->
+    <import resource="application-mq.xml"></import>
 </beans>

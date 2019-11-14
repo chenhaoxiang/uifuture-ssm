@@ -161,6 +161,8 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, UsersEntity> impl
                 //回滚
                 transactionManager.rollback(transaction);
             }
+            //TODO 进行发送MQ消息通知
+
         }
 
     }

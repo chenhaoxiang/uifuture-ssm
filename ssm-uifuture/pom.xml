@@ -354,6 +354,12 @@
             <version>4.8.10.ALL</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.souche</groupId>
+            <artifactId>megatron-mq-aliyun-ons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
     <build>
         <!--为了解决IDEA不将src/main/java下的xml文件也编译成.class文件，而添加下面的resources-->
