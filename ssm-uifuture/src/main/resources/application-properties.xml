@@ -14,6 +14,7 @@
                 <value>classpath:redis.properties</value>
                 <value>classpath:email.properties</value>
                 <value>classpath:common.properties</value>
+                <value>classpath:mq.properties</value>
             </list>
         </property>
     </bean>

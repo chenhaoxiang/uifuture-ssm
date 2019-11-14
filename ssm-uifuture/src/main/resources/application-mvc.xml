@@ -95,6 +95,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
         <property name="maxUploadSize" value="52428800"></property>
     </bean>
 
+    <!--这是Spring MVC容器的aop配置-->
     <!--aop的切面部署可以决定扫描service还是controller-->
     <!--spring和spring mvc都进行配置，可以在两边生效-->
     <aop:aspectj-autoproxy proxy-target-class="false"/>

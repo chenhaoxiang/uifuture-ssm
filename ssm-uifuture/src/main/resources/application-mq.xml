@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--MQ消息队列配置-->
+
+    <!--生产者配置-->
+    <bean id="producerConfig" class="com.souche.megatron.mq.aliyun.ons.ONSProducerConnConfig">
+        <property name="accessKey" value="${aliyun.oss.access.key.id}"/>
+        <property name="secretKey" value="${aliyun.oss.access.key.secret}"/>
+        <!-- 阿里云其他的属性配置，都可以通过此项来配置，
+             参考
+             https://help.aliyun.com/document_detail/93574.html?spm=a2c4g.11186623.6.553.533a447dZ5fJZn#h2-propertykeyconst1
+         -->
+        <property name="userConfig">
+            <map>
+                <!-- 设置 TCP 协议接入点。-->
+                <entry key="NAMESRV_ADDR"
+                       value="http://MQ_INST_1646818218172574_Bbjr3DA4.mq-internet-access.mq-internet.aliyuncs.com:80"/>
+            </map>
+        </property>
+    </bean>
+    <!-- 生产者TCP连接 -->
+    <bean id="oNSProducerInvoker" class="com.souche.megatron.mq.aliyun.ons.ONSProducerInvoker">
+        <property name="producerId" value="${aliyun.mq.uifuture.groupId}"/>
+        <property name="config" ref="producerConfig"/>
+    </bean>
+    <!-- 定义生产者 -->
+    <bean id="onsProducer" class="com.souche.megatron.mq.aliyun.ons.ONSProducer">
+        <property name="topic" value="${aliyun.mq.uifuture.topicId}"/>
+        <property name="invoker" ref="oNSProducerInvoker"/>
+    </bean>
+
+
+    <!--消费者配置-->
+    <bean id="customerConnConfig" class="com.souche.megatron.mq.aliyun.ons.ONSCustomerConnConfig">
+        <property name="accessKey" value="${aliyun.oss.access.key.id}"/>
+        <property name="secretKey" value="${aliyun.oss.access.key.secret}"/>
+        <!-- 阿里云其他的属性配置，都可以通过此项来配置，
+             参考
+             https://help.aliyun.com/document_detail/93574.html?spm=a2c4g.11186623.6.553.533a447dZ5fJZn#h2-propertykeyconst1
+         -->
+        <property name="userConfig">
+            <map>
+                <!-- 设置 TCP 协议接入点。-->
+                <entry key="NAMESRV_ADDR"
+                       value="http://MQ_INST_1646818218172574_Bbjr3DA4.mq-internet-access.mq-internet.aliyuncs.com:80"/>
+            </map>
+        </property>
+    </bean>
+    <!-- 消费者TCP连接 -->
+    <bean id="consumerInvoker" class="com.souche.megatron.mq.aliyun.ons.ONSConsumerInvoker">
+        <property name="config" ref="customerConnConfig"/>
+        <property name="reciver" ref="consumer"/>
+        <property name="consumerId" value="${aliyun.mq.uifuture.groupId}"/>
+        <property name="topic" value="${aliyun.mq.uifuture.topicId}"/>
+    </bean>
+    <!-- 消费者 -->
+    <bean id="consumer" class="com.uifuture.ssm.aliyun.mq.MQConsumer"/>
+
+    <!--如果出现com.aliyun.openservices.ons.api.exception.ONSClientException: Receive a broker exception类似异常，请检查账号是否有MQ的权限，或者Topic或者GID是否填写正确-->
+</beans>

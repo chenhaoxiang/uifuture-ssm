@@ -6,6 +6,7 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!--这是Spring容器的aop配置-->
     <!-- 基于AspectJ的自动代理.使用AnnotationAwareAspectJAutoProxyCreator  -->
     <aop:aspectj-autoproxy proxy-target-class="false"/>
     <!--proxy-target-class="true" Spring建议
