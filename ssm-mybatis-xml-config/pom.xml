@@ -11,7 +11,7 @@
         <!--MyBatis -->
         <mybatis.version>3.4.6</mybatis.version>
         <!-- MySQL -->
-        <mysql.version>5.1.36</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
     </properties>
     <dependencies>
         <!-- 添加mybatis的核心包 -->
