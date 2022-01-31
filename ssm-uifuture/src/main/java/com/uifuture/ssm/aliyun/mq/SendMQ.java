@@ -5,9 +5,8 @@
 package com.uifuture.ssm.aliyun.mq;
 
 import com.alibaba.fastjson.JSON;
-import com.souche.megatron.framework.core.util.UUIDUtil;
-import com.souche.megatron.mq.aliyun.ons.ONSProducer;
 import com.uifuture.ssm.aliyun.model.UbBodyModel;
+import com.uifuture.ssm.mq.aliyun.ons.ONSProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author chenhx
@@ -35,7 +35,7 @@ public class SendMQ {
             log.info("发送消息队列，数据为NULL,不进行发送消息队列，{}", JSON.toJSONString(mqModel));
             return;
         }
-        String id = UUIDUtil.getID();
+        String id = UUID.randomUUID().toString();
         Map<String, Object> map = new HashMap<>();
         try {
             map.put("data", mqModel);

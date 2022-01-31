@@ -6,7 +6,7 @@
     <!--MQ消息队列配置-->
 
     <!--生产者配置-->
-    <bean id="producerConfig" class="com.souche.megatron.mq.aliyun.ons.ONSProducerConnConfig">
+    <bean id="producerConfig" class="com.uifuture.ssm.mq.aliyun.ons.ONSProducerConnConfig">
         <property name="accessKey" value="${aliyun.oss.access.key.id}"/>
         <property name="secretKey" value="${aliyun.oss.access.key.secret}"/>
         <!-- 阿里云其他的属性配置，都可以通过此项来配置，
@@ -22,19 +22,19 @@
         </property>
     </bean>
     <!-- 生产者TCP连接 -->
-    <bean id="oNSProducerInvoker" class="com.souche.megatron.mq.aliyun.ons.ONSProducerInvoker">
+    <bean id="oNSProducerInvoker" class="com.uifuture.ssm.mq.aliyun.ons.ONSProducerInvoker">
         <property name="producerId" value="${aliyun.mq.uifuture.groupId}"/>
         <property name="config" ref="producerConfig"/>
     </bean>
     <!-- 定义生产者 -->
-    <bean id="onsProducer" class="com.souche.megatron.mq.aliyun.ons.ONSProducer">
+    <bean id="onsProducer" class="com.uifuture.ssm.mq.aliyun.ons.ONSProducer">
         <property name="topic" value="${aliyun.mq.uifuture.topicId}"/>
         <property name="invoker" ref="oNSProducerInvoker"/>
     </bean>
 
 
     <!--消费者配置-->
-    <bean id="customerConnConfig" class="com.souche.megatron.mq.aliyun.ons.ONSCustomerConnConfig">
+    <bean id="customerConnConfig" class="com.uifuture.ssm.mq.aliyun.ons.ONSCustomerConnConfig">
         <property name="accessKey" value="${aliyun.oss.access.key.id}"/>
         <property name="secretKey" value="${aliyun.oss.access.key.secret}"/>
         <!-- 阿里云其他的属性配置，都可以通过此项来配置，
@@ -50,7 +50,7 @@
         </property>
     </bean>
     <!-- 消费者TCP连接 -->
-    <bean id="consumerInvoker" class="com.souche.megatron.mq.aliyun.ons.ONSConsumerInvoker">
+    <bean id="consumerInvoker" class="com.uifuture.ssm.mq.aliyun.ons.ONSConsumerInvoker">
         <property name="config" ref="customerConnConfig"/>
         <property name="reciver" ref="consumer"/>
         <property name="consumerId" value="${aliyun.mq.uifuture.groupId}"/>

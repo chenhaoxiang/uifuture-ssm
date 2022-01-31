@@ -22,6 +22,7 @@
         <module>ssm-spring-aop</module>
         <module>ssm-mybatis-transaction</module>
         <module>ssm-uifuture</module>
+        <module>ssm-mq-aliyun</module>
     </modules>
 
     <properties>
