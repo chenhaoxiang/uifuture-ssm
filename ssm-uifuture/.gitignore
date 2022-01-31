@@ -10,10 +10,10 @@
 .springBeans
 .sts4-cache
 
-**/log4j.properties
-**/email.properties
-**/common.properties
-**/mq.properties
+**/log4j.properties.back
+**/email.properties.back
+**/common.properties.back
+**/mq.properties.back
 
 ### IntelliJ IDEA ###
 .idea
