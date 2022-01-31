@@ -355,9 +355,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.souche</groupId>
-            <artifactId>megatron-mq-aliyun-ons</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.uifuture</groupId>
+            <artifactId>ssm-mq-aliyun</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

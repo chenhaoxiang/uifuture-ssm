@@ -5,9 +5,9 @@
 package com.uifuture.ssm.aliyun.mq;
 
 import com.alibaba.fastjson.JSON;
-import com.souche.megatron.mq.aliyun.ConsumeResult;
 import com.uifuture.ssm.aliyun.model.UbBodyModel;
 import com.uifuture.ssm.enums.MqTypeEnum;
+import com.uifuture.ssm.mq.aliyun.ConsumeResult;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
  * @version MQConsumer.java, v 0.1 2019-11-14 17:29 chenhx
  */
 @Slf4j
-public class MQConsumer implements com.souche.megatron.mq.aliyun.MQConsumer {
+public class MQConsumer implements com.uifuture.ssm.mq.aliyun.MQConsumer {
 
     @Override
     public ConsumeResult onRecived(Map<String, Object> map) {
