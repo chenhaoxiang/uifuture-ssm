@@ -17,7 +17,7 @@
         <!--<mysql.version>5.1.36</mysql.version> -->
         <mysql.version>8.0.15</mysql.version>
         <!-- Spring -->
-        <spring-framework.version>5.0.8.RELEASE</spring-framework.version>
+        <spring-framework.version>5.2.22.RELEASE</spring-framework.version>
         <!--MyBatis -->
         <mybatis.version>3.4.6</mybatis.version>
         <!-- mybatis与Spring整合的核心包 -->
