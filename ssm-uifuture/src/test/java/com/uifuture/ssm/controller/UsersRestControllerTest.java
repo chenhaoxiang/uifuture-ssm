@@ -55,13 +55,43 @@ public class UsersRestControllerTest extends BaseTest {
             BeanUtils.copyProperties(usersEntity, usersCookieDTO);
         }
         long e = System.currentTimeMillis();
-        System.out.println("SpringBean拷贝" + size + "次，共消耗时间:" + (e - s) + "毫秒");
+        System.out.println("SpringBean复制" + size + "次，共消耗时间:" + (e - s) + "毫秒");
         s = System.currentTimeMillis();
         for (int i = 0; i < size; i++) {
             UsersCookieDTO usersCookieDTO = UsersConvert.INSTANCE.entityToDTO(usersEntity);
         }
         e = System.currentTimeMillis();
-        System.out.println("mapstruct拷贝" + size + "次，共消耗时间:" + (e - s) + "毫秒");
+        System.out.println("mapstruct复制" + size + "次，共消耗时间:" + (e - s) + "毫秒");
+
+        size = 5000000;
+        s = System.currentTimeMillis();
+        for (int i = 0; i < size; i++) {
+            UsersCookieDTO usersCookieDTO = new UsersCookieDTO();
+            BeanUtils.copyProperties(usersEntity, usersCookieDTO);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("SpringBean复制" + size + "次，共消耗时间:" + (e - s) + "毫秒");
+        s = System.currentTimeMillis();
+        for (int i = 0; i < size; i++) {
+            UsersCookieDTO usersCookieDTO = UsersConvert.INSTANCE.entityToDTO(usersEntity);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("mapstruct复制" + size + "次，共消耗时间:" + (e - s) + "毫秒");
+
+        size = 10000000;
+        s = System.currentTimeMillis();
+        for (int i = 0; i < size; i++) {
+            UsersCookieDTO usersCookieDTO = new UsersCookieDTO();
+            BeanUtils.copyProperties(usersEntity, usersCookieDTO);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("SpringBean复制" + size + "次，共消耗时间:" + (e - s) + "毫秒");
+        s = System.currentTimeMillis();
+        for (int i = 0; i < size; i++) {
+            UsersCookieDTO usersCookieDTO = UsersConvert.INSTANCE.entityToDTO(usersEntity);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("mapstruct复制" + size + "次，共消耗时间:" + (e - s) + "毫秒");
     }
 
 }
