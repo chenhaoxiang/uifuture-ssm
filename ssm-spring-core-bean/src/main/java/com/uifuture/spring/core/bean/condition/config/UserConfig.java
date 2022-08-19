@@ -5,6 +5,7 @@
 package com.uifuture.spring.core.bean.condition.config;
 
 import com.uifuture.spring.core.bean.condition.condition.LinuxCondition;
+import com.uifuture.spring.core.bean.condition.condition.MacConditional;
 import com.uifuture.spring.core.bean.condition.condition.WindowsCondition;
 import com.uifuture.spring.core.bean.condition.entity.User;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +44,20 @@ public class UserConfig {
         User user = new User();
         user.setName("linux");
         user.setAge(20);
+        return user;
+    }
+
+    /**
+     * 如果LinuxCondition的matches实现方法返回true，则注入这个bean
+     *
+     * @return
+     */
+    @Conditional({MacConditional.class})
+    @Bean("macUser")
+    public User macUser() {
+        User user = new User();
+        user.setName("mac");
+        user.setAge(30);
         return user;
     }
 }
