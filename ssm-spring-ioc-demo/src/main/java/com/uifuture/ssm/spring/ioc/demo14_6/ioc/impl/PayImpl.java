@@ -10,7 +10,7 @@ public class PayImpl implements Pay {
 
     public static void main(String[] args) {
         PayImpl pay = new PayImpl();
-        pay.setPay(new WxPayImpl());
+        pay.setPay(new AliPayImpl());
         pay.pay();
     }
 

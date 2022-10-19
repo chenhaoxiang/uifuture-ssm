@@ -2,7 +2,7 @@
  * uifuture.com
  * Copyright (C) 2013-2018 All Rights Reserved.
  */
-package com.uifuture.ssm.spring.ioc.demo2;
+package com.uifuture.ssm.spring.ioc.demo14_2;
 
 import com.uifuture.ssm.spring.ioc.entity.ObjectTarget;
 

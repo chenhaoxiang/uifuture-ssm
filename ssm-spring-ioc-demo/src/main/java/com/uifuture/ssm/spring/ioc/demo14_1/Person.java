@@ -2,11 +2,13 @@
  * uifuture.com
  * Copyright (C) 2013-2018 All Rights Reserved.
  */
-package com.uifuture.ssm.spring.ioc.demo1;
+package com.uifuture.ssm.spring.ioc.demo14_1;
 
 import com.uifuture.ssm.spring.ioc.entity.ObjectTarget;
 
 /**
+ * 传统的new对象的方式
+ *
  * @author chenhx
  * @version Person.java, v 0.1 2018-12-26 下午 8:08 chenhx
  */
