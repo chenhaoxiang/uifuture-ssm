@@ -17,7 +17,7 @@
         <!-- 编码 -->
         <project.build.encoding>UTF-8</project.build.encoding>
         <!-- Spring版本号 -->
-        <spring-framework.version>5.0.8.RELEASE</spring-framework.version>
+        <spring-framework.version>5.2.20.RELEASE</spring-framework.version>
         <!--Logging版本 -->
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
