@@ -15,6 +15,6 @@ import com.uifuture.factory.abstractfactory.abstractproduct.AliPay;
 public class IOSAliPay implements AliPay {
     @Override
     public void appPay() {
-        System.out.println("ios平台下的支付宝app支付");
+        System.out.println("iOS平台下的支付宝APP支付");
     }
 }
