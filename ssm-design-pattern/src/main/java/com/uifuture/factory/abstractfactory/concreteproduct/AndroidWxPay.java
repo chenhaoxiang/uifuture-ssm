@@ -15,6 +15,6 @@ import com.uifuture.factory.abstractfactory.abstractproduct.WxPay;
 public class AndroidWxPay implements WxPay {
     @Override
     public void appPpay() {
-        System.out.println("Android平台下的微信app支付");
+        System.out.println("Android平台下的微信APP支付");
     }
 }
